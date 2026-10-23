@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}System Architecture & Technical Guide | ML Portfolio{% endblock %}
+
+{% block content %}
+<div class="container doc-container">
+  <div class="doc-header">
+    <span class="section-tag">Technical Specification</span>
+    <h1 class="page-title">Comprehensive Project Architecture Guide</h1>
+    <p class="page-subtitle">
+      Mathematical derivations, algorithmic trade-offs, and empirical evaluations across the complete repository.
+    </p>
+    <div class="doc-meta-strip">
+      <span>📄 Source: <code>PROJECT_EXPLANATION.md</code></span>
+      <span>•</span>
+      <span>⏱️ 15 min read</span>
+      <span>•</span>
+      <span>🎓 Udacity MLND Standard</span>
+    </div>
+  </div>
+
+  <div class="doc-card glass-card">
+    <div class="markdown-body">
+      {{ content_html | safe }}
+    </div>
+  </div>
+</div>
+{% endblock %}

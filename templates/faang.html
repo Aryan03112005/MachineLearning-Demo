@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}FAANG ML Interview Master Reference | Production Prep{% endblock %}
+
+{% block content %}
+<div class="container doc-container">
+  <div class="doc-header">
+    <span class="section-tag">Career Acceleration</span>
+    <h1 class="page-title">FAANG ML Engineer Interview Guide</h1>
+    <p class="page-subtitle">
+      Real-world technical questions, mathematical proofs, system designs, and behavioral defenses asked at Google, Meta, Amazon, Apple, and Netflix.
+    </p>
+    
+    <div class="faang-filter-bar">
+      <input type="text" id="faangSearch" placeholder="🔍 Search questions, formulas, or concepts (e.g., PCA, Bias-Variance, Q-Learning, CNN)..." onkeyup="filterFaang()">
+      <div class="company-pills">
+        <button class="pill-btn active" onclick="filterByCompany('ALL')">All Companies</button>
+        <button class="pill-btn" onclick="filterByCompany('Google')">Google</button>
+        <button class="pill-btn" onclick="filterByCompany('Meta')">Meta</button>
+        <button class="pill-btn" onclick="filterByCompany('Amazon')">Amazon</button>
+        <button class="pill-btn" onclick="filterByCompany('Apple')">Apple</button>
+        <button class="pill-btn" onclick="filterByCompany('Netflix')">Netflix</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-card glass-card">
+    <div class="markdown-body faang-body" id="faangContent">
+      {{ content_html | safe }}
+    </div>
+  </div>
+</div>
+{% endblock %}

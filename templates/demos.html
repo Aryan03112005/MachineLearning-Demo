@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}Live ML Playground | Real-Time Inference Demos{% endblock %}
+
+{% block content %}
+<div class="container page-header">
+  <span class="section-tag">Interactive Benchmarks</span>
+  <h1 class="page-title">Live Machine Learning Inference Playground</h1>
+  <p class="page-subtitle">
+    Test real-time models trained directly on the project datasets. Adjust features using the sliders and observe instant model updates.
+  </p>
+</div>
+
+<div class="container demo-layout">
+  <!-- TABS NAV -->
+  <div class="demo-tabs">
+    <button class="demo-tab-btn active" onclick="switchDemo('housing')">🏡 Boston Housing</button>
+    <button class="demo-tab-btn" onclick="switchDemo('donors')">🎯 CharityML Donors</button>
+    <button class="demo-tab-btn" onclick="switchDemo('customer')">🛒 Customer Segments</button>
+    <button class="demo-tab-btn" onclick="switchDemo('smartcab')">🚕 Smartcab Q-Learning</button>
+  </div>
+
+  <!-- DEMO 1: BOSTON HOUSING -->
+  <div class="demo-panel active" id="demo-housing">
+    <div class="demo-grid">
+      <div class="glass-card form-card">
+        <h3 class="panel-title">1. Boston Housing Regressor</h3>
+        <p class="panel-desc">
+          Predicts median selling price ($MEDV$) based on architectural and socioeconomic community metrics.
+        </p>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-rm">Rooms per Dwelling (RM):</label>
+            <span class="control-val" id="val-rm">6.50 rooms</span>
+          </div>
+          <input type="range" id="slider-rm" min="4.0" max="9.0" step="0.1" value="6.5" oninput="updateHousing()">
+          <span class="control-hint">Higher room count strongly correlates with higher valuation.</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-lstat">Lower Status Population (LSTAT):</label>
+            <span class="control-val" id="val-lstat">10.0%</span>
+          </div>
+          <input type="range" id="slider-lstat" min="1.0" max="38.0" step="0.5" value="10.0" oninput="updateHousing()">
+          <span class="control-hint">Inverse socioeconomic indicator.</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-ptratio">Pupil-Teacher Ratio (PTRATIO):</label>
+            <span class="control-val" id="val-ptratio">18.0</span>
+          </div>
+          <input type="range" id="slider-ptratio" min="12.0" max="23.0" step="0.5" value="18.0" oninput="updateHousing()">
+          <span class="control-hint">Proxy for public school funding quality.</span>
+        </div>
+      </div>
+
+      <div class="glass-card result-card">
+        <h3 class="panel-title">Inference Output</h3>
+        <div class="result-display">
+          <div class="price-badge-label">Predicted Median Value</div>
+          <div class="price-val" id="housing-price">$512,750</div>
+          <div class="tier-pill" id="housing-tier">Mid-Tier Residential</div>
+        </div>
+
+        <div class="result-stats">
+          <div class="stat-row">
+            <span>Regional Baseline (Boston Avg):</span>
+            <strong>$454,000</strong>
+          </div>
+          <div class="stat-row">
+            <span>Variance vs Baseline:</span>
+            <strong id="housing-diff" class="text-emerald">+12.9%</strong>
+          </div>
+          <div class="stat-row">
+            <span>Model Underlying:</span>
+            <span>RandomForestRegressor (40 Trees)</span>
+          </div>
+        </div>
+
+        <div class="model-note">
+          <strong>Bias/Variance Diagnosis:</strong> The model complexity curve demonstrates that constrained tree depth ($\text{max\_depth}=6$) avoids overfitting noisy data while preserving high validation $R^2$.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO 2: CHARITY ML DONORS -->
+  <div class="demo-panel" id="demo-donors">
+    <div class="demo-grid">
+      <div class="glass-card form-card">
+        <h3 class="panel-title">2. CharityML Donor Classifier</h3>
+        <p class="panel-desc">
+          Predicts whether an individual earns $> \$50,000$ to optimize marketing spend using $F_{0.5}$ precision weighting.
+        </p>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="donor-age">Age:</label>
+            <input type="number" id="donor-age" value="42" min="17" max="90" onchange="updateDonor()">
+          </div>
+          <div class="control-group">
+            <label for="donor-education">Education (Years):</label>
+            <input type="number" id="donor-education" value="14" min="1" max="16" onchange="updateDonor()">
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="donor-hours">Hours per Week:</label>
+            <input type="number" id="donor-hours" value="45" min="10" max="80" onchange="updateDonor()">
+          </div>
+          <div class="control-group">
+            <label for="donor-marital">Marital Status:</label>
+            <select id="donor-marital" onchange="updateDonor()">
+              <option value="Married" selected>Married</option>
+              <option value="Single">Single / Never Married</option>
+              <option value="Divorced">Divorced / Separated</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label for="donor-gain">Capital Gain ($):</label>
+            <input type="number" id="donor-gain" value="5000" min="0" max="99999" step="500" onchange="updateDonor()">
+          </div>
+          <div class="control-group">
+            <label for="donor-loss">Capital Loss ($):</label>
+            <input type="number" id="donor-loss" value="0" min="0" max="5000" step="100" onchange="updateDonor()">
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" onclick="updateDonor()">Calculate Donation Probability</button>
+      </div>
+
+      <div class="glass-card result-card">
+        <h3 class="panel-title">Inference Output</h3>
+        <div class="result-display">
+          <div class="price-badge-label">Predicted Probability (> $50K)</div>
+          <div class="price-val" id="donor-prob">78.4%</div>
+          <div class="tier-pill badge-success" id="donor-decision">High-Likelihood Donor (Send Campaign)</div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="donor-meter" style="width: 78.4%;"></div>
+        </div>
+
+        <div class="result-stats">
+          <div class="stat-row">
+            <span>Model Confidence:</span>
+            <strong id="donor-conf">High</strong>
+          </div>
+          <div class="stat-row">
+            <span>Decision Boundary:</span>
+            <strong>$F_{0.5}$ Optimal ($\ge 45\%$)</strong>
+          </div>
+          <div class="stat-row">
+            <span>Feature Transforms:</span>
+            <span>$\log_e(\text{capital\_gain} + 1)$</span>
+          </div>
+        </div>
+
+        <div class="model-note">
+          <strong>Why $F_{0.5}$?</strong> Sending mail incurs direct costs. $F_{0.5}$ weights Precision twice as heavily as Recall, preventing budget waste on non-donors.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO 3: CUSTOMER SEGMENTS -->
+  <div class="demo-panel" id="demo-customer">
+    <div class="demo-grid">
+      <div class="glass-card form-card">
+        <h3 class="panel-title">3. Wholesale Customer Segmentation</h3>
+        <p class="panel-desc">
+          Projects spending into a 2D PCA space and classifies the client using Gaussian Mixture Models.
+        </p>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-fresh">Fresh Produce ($):</label>
+            <span class="control-val" id="val-fresh">15,000</span>
+          </div>
+          <input type="range" id="slider-fresh" min="100" max="60000" step="500" value="15000" oninput="updateCustomer()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-grocery">Grocery Items ($):</label>
+            <span class="control-val" id="val-grocery">4,000</span>
+          </div>
+          <input type="range" id="slider-grocery" min="100" max="50000" step="500" value="4000" oninput="updateCustomer()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-frozen">Frozen Foods ($):</label>
+            <span class="control-val" id="val-frozen">3,500</span>
+          </div>
+          <input type="range" id="slider-frozen" min="50" max="25000" step="250" value="3500" oninput="updateCustomer()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-header">
+            <label for="slider-detergents">Detergents & Paper ($):</label>
+            <span class="control-val" id="val-detergents">800</span>
+          </div>
+          <input type="range" id="slider-detergents" min="50" max="30000" step="100" value="800" oninput="updateCustomer()">
+        </div>
+      </div>
+
+      <div class="glass-card result-card">
+        <h3 class="panel-title">Inference Output</h3>
+        <div class="result-display">
+          <div class="price-badge-label">Predicted Customer Cluster</div>
+          <div class="cluster-title" id="cust-segment">Restaurants / Cafes / Hotels</div>
+          <div class="tier-pill badge-cyan" id="cust-confidence">Cluster Confidence: 94.2%</div>
+        </div>
+
+        <div class="pca-display">
+          <div class="pca-coord">PCA Dimension 1: <strong id="pca-x">-1.42</strong></div>
+          <div class="pca-coord">PCA Dimension 2: <strong id="pca-y">0.86</strong></div>
+        </div>
+
+        <p class="panel-desc mt-3" id="cust-desc">
+          Dominant spending on fresh produce, frozen foods, and delicatessen goods typical of hospitality food service.
+        </p>
+
+        <div class="model-note">
+          <strong>Why GMM over K-Means?</strong> GMM provides soft probabilities ($P(C_k|x)$) and accounts for elliptical covariance ellipses in wholesale spending patterns.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO 4: SMARTCAB RL -->
+  <div class="demo-panel" id="demo-smartcab">
+    <div class="demo-grid">
+      <div class="glass-card form-card">
+        <h3 class="panel-title">4. Smartcab Q-Learning Simulator</h3>
+        <p class="panel-desc">
+          Test the self-driving agent's learned optimal policy under U.S. Right-of-Way driving rules.
+        </p>
+
+        <div class="control-group">
+          <label for="cab-light">Traffic Light at Intersection:</label>
+          <select id="cab-light" onchange="updateSmartcab()">
+            <option value="red">🔴 Red Light</option>
+            <option value="green" selected>🟢 Green Light</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="cab-waypoint">Planner Next Waypoint:</label>
+          <select id="cab-waypoint" onchange="updateSmartcab()">
+            <option value="forward" selected>⬆️ Forward</option>
+            <option value="left">⬅️ Turn Left</option>
+            <option value="right">➡️ Turn Right</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="cab-oncoming">Oncoming Traffic Heading:</label>
+          <select id="cab-oncoming" onchange="updateSmartcab()">
+            <option value="None" selected>None (Clear Intersection)</option>
+            <option value="forward">Driving Straight Forward</option>
+            <option value="left">Turning Left</option>
+            <option value="right">Turning Right</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="cab-left">Traffic Approaching from Left:</label>
+          <select id="cab-left" onchange="updateSmartcab()">
+            <option value="None" selected>None (Clear Road)</option>
+            <option value="forward">Driving Straight Ahead</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="glass-card result-card">
+        <h3 class="panel-title">Q-Agent Optimal Action</h3>
+        <div class="result-display">
+          <div class="price-badge-label">Selected Action $a^* = \arg\max Q(s, a)$</div>
+          <div class="price-val text-cyan" id="cab-action">Drive Forward</div>
+          <div class="tier-pill badge-success" id="cab-status">PROCEED_LEGAL</div>
+        </div>
+
+        <div class="result-stats">
+          <div class="stat-row">
+            <span>Safety Assessment:</span>
+            <strong id="cab-safety" class="text-emerald">Proceeding forward with right-of-way on green.</strong>
+          </div>
+          <div class="stat-row">
+            <span>Total State Space:</span>
+            <span>$2 \times 4 \times 4 \times 3 = 96$ states</span>
+          </div>
+          <div class="stat-row">
+            <span>Safety Rating:</span>
+            <span class="text-emerald"><strong>A+ (0 Major Violations)</strong></span>
+          </div>
+        </div>
+
+        <div class="model-note">
+          <strong>Right-of-Way Rule:</strong> On green lights, left turns must yield to oncoming traffic moving straight. On red lights, right turns are only legal if cross-traffic from the left is clear.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

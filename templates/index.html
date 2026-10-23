@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}ML Portfolio | End-to-End Systems & FAANG Master Reference{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+  <div class="hero-glow"></div>
+  <div class="container hero-container">
+    <div class="hero-badge">
+      <span class="pulse-indicator"></span>
+      <span>Udacity Machine Learning Engineer Nanodegree Portfolio</span>
+    </div>
+    
+    <h1 class="hero-title">
+      Applied Machine Learning & <br/>
+      <span class="gradient-text">Production Inference Systems</span>
+    </h1>
+    
+    <p class="hero-subtitle">
+      A comprehensive engineering portfolio spanning classical statistical learning, gradient-boosted ensembles, PCA dimensionality reduction, Q-Learning autonomous agents, and deep convolutional networks.
+    </p>
+
+    <div class="hero-cta-group">
+      <a href="/demos" class="btn btn-primary">
+        <span>⚡ Launch Live ML Playground</span>
+      </a>
+      <a href="/docs" class="btn btn-secondary">
+        <span>📖 Project Architecture & Math</span>
+      </a>
+      <a href="/faang-prep" class="btn btn-accent">
+        <span>🎯 FAANG Interview Portal</span>
+      </a>
+    </div>
+
+    <div class="metrics-strip">
+      <div class="metric-card">
+        <div class="metric-value">11</div>
+        <div class="metric-label">Completed ML Projects</div>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-card">
+        <div class="metric-value">5</div>
+        <div class="metric-label">Curated Git Commits</div>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-card">
+        <div class="metric-value">50ms</div>
+        <div class="metric-label">Real-time Inference SLA</div>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-card">
+        <div class="metric-value">A+</div>
+        <div class="metric-label">Smartcab Safety & Reliability</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOMAIN ARCHITECTURE SECTION -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Core Competencies</span>
+      <h2 class="section-title">End-to-End Machine Learning Stack</h2>
+      <p class="section-desc">
+        Rigorous implementation of foundational algorithms from mathematical derivation to production serving.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <!-- Card 1 -->
+      <div class="glass-card">
+        <div class="card-icon gradient-blue">📈</div>
+        <h3 class="card-title">Model Evaluation & Validation</h3>
+        <p class="card-text">
+          Diagnosed underfitting vs. overfitting using Bias-Variance decomposition, learning curves, and model complexity curves with $10$-fold cross-validation.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Decision Trees</span>
+          <span class="tag">R² Metric</span>
+          <span class="tag">GridSearchCV</span>
+        </div>
+        <a href="/demos#housing" class="card-link">Test Housing Predictor &rarr;</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glass-card">
+        <div class="card-icon gradient-purple">🎯</div>
+        <h3 class="card-title">Supervised Ensembles</h3>
+        <p class="card-text">
+          Trained on Census demographics under a 75/25 class imbalance. Engineered log-transformed features and optimized an AdaBoost classifier for $F_{0.5}$ precision.
+        </p>
+        <div class="card-tags">
+          <span class="tag">AdaBoost</span>
+          <span class="tag">F-0.5 Score</span>
+          <span class="tag">Log Transforms</span>
+        </div>
+        <a href="/demos#donors" class="card-link">Test Donor Classifier &rarr;</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass-card">
+        <div class="card-icon gradient-emerald">🔍</div>
+        <h3 class="card-title">Unsupervised Learning & PCA</h3>
+        <p class="card-text">
+          Segmented wholesale clients with Tukey's IQR multivariate outlier filtering, PCA eigenvalue reduction, and Gaussian Mixture Models (EM algorithm).
+        </p>
+        <div class="card-tags">
+          <span class="tag">PCA</span>
+          <span class="tag">GMM (EM)</span>
+          <span class="tag">Silhouette Score</span>
+        </div>
+        <a href="/demos#customer" class="card-link">Test Customer Clustering &rarr;</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="glass-card">
+        <div class="card-icon gradient-amber">🤖</div>
+        <h3 class="card-title">Reinforcement Learning</h3>
+        <p class="card-text">
+          Implemented a Q-Learning agent in an urban Manhattan grid environment. Solved the exploration-exploitation dilemma with non-linear decay scheduling.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Q-Learning</span>
+          <span class="tag">MDP</span>
+          <span class="tag">ε-Greedy Decay</span>
+        </div>
+        <a href="/demos#smartcab" class="card-link">Test Driving Simulator &rarr;</a>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="glass-card">
+        <div class="card-icon gradient-rose">👁️</div>
+        <h3 class="card-title">Deep Learning & Vision</h3>
+        <p class="card-text">
+          Engineered multi-layer CNNs on CIFAR-10 with TensorFlow/Keras. Leveraged Batch Normalization, spatial dropout, and data augmentation for high test accuracy.
+        </p>
+        <div class="card-tags">
+          <span class="tag">CNNs</span>
+          <span class="tag">Batch Normalization</span>
+          <span class="tag">CIFAR-10</span>
+        </div>
+        <a href="/docs#project-5" class="card-link">View Architecture &rarr;</a>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="glass-card">
+        <div class="card-icon gradient-cyan">💼</div>
+        <h3 class="card-title">FAANG Interview Master Hub</h3>
+        <p class="card-text">
+          Over 15 rigorous technical questions asked at Google, Meta, and Amazon, covering mathematical proofs, system designs, and behavioral defenses.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Google MLE</span>
+          <span class="tag">Meta MLE</span>
+          <span class="tag">System Design</span>
+        </div>
+        <a href="/faang-prep" class="card-link">Practice Questions &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK INTERACTIVE DEMO CALLOUT -->
+<section class="section section-dark">
+  <div class="container cta-banner">
+    <div class="cta-content">
+      <h2>Ready to Test the Models in Real-Time?</h2>
+      <p>
+        Interact directly with trained weights for housing regression, donor prediction, wholesale clustering, and autonomous vehicle navigation.
+      </p>
+      <div class="btn-group">
+        <a href="/demos" class="btn btn-primary">Open Interactive Playground</a>
+        <a href="/faang-prep" class="btn btn-outline">Browse FAANG Questions</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
